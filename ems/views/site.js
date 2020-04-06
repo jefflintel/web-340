@@ -1,3 +1,12 @@
+/*
+============================================
+; Title:  site.js
+; Author: Jeff Lintel
+; Date:   4 April 2020
+; Description: Custom js for ems project
+;===========================================
+*/
+
 $(document).ready(function(){
 
   $('.card').mouseenter(function() {
