@@ -12,15 +12,19 @@
 const header = require('../lintel-header.js');
 
 console.log(header.display("Jeff", "Lintel", "Exercise 6.4"));
-
+//express
 const express = require("express");
 const http = require("http");
 const path = require("path");
+//logging
 const logger = require("morgan");
+//database
 const mongoose = require("mongoose");
 const Employee = require("./models/employees");
+//helmet xss
+var helmet = require("helmet");
 
-//mLab databaes connection
+//mLab database connection
 var mongoDB = "mongodb+srv://admin:1BUDweiser@buwebdev-cluster-1-09j90.mongodb.net/test?retryWrites=true&w=majority";
 
 mongoose.connect(mongoDB, {
@@ -39,7 +43,6 @@ db.once("open", function() {
 })
 
 var app = express();
-
 app.set("views", path.resolve(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(logger("short"));
@@ -48,10 +51,14 @@ app.use(logger("short"));
 var publicPath = path.resolve(__dirname, "public");
 app.use(express.static(publicPath));
 
+//use helmet
+app.use(helmet.xssFilter());
+
 
 app.get("/", function(request, response) {
   response.render("index", {
-    title: "Home page"
+    title: "Home page",
+    message: "XSS Prevention Example"
   });
 });
 
