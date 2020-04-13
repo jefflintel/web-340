@@ -81,15 +81,52 @@ app.get("/", function(request, response) {
   });
 });
 
+app.get("/new", function(request, response) {
+  response.render("new", {
+    title: "EMS || New"
+  });
+})
+
 app.post("/process", function(request, response) {
-  console.log(request.body.txtName);
-  response.redirect("/");
+  //console.log(request.body.txtFirstName);
+  if(!request.body.txtFirstName) {
+    response.status(400).send("Entries must have a first name!");
+    return;
+  }
+
+  //get request's form data
+  var employeeFirstName = request.body.txtFirstName;
+  var employeeLastName = request.body.txtLastName;
+  console.log(employeeFirstName + employeeLastName);
+
+  //create new employee model
+  var employee = new Employee({
+    firstName: employeeFirstName,
+    lastName: employeeLastName
+  });
+
+  //save
+  employee.save(function(err) {
+    if(err) {
+      console.log(err);
+      throw err;
+    } else {
+      console.log(employeeFirstName + " " + employeeLastName + " saved successfully!");
+    }
+    response.redirect("/");
+  });
+
 });
 
-//new employee
-var employee = new Employee({
-  firstName: "Randy",
-  lastName: "Randallman"
+//find all
+app.get("/list", function(request, response) {
+  Employee.find({}, function(error, employees) {
+     if (error) throw error;
+     response.render("list", {
+         title: "EMS || List",
+         employees: employees
+     });
+  });
 });
 
 http.createServer(app).listen(8080, function() {
