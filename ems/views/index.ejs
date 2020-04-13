@@ -46,6 +46,7 @@
           <p class="card-text p-2">
             Follow this link to modify an existing employee's information. You'll update the relevant fields in the database.
           </p>
+          <input name="_csrf" value ="<% csrfToken %>" type="hidden">
           <p class="text-center">
             <a class="btn btn-secondary stretched-link text-info" href="#" role="button">Modify a record &raquo;</a
             >
@@ -62,6 +63,7 @@
             Follow this link to remove an employee from the database. Maybe they quit. Maybe they got fired. Either way they don't need to be
             in the system anymore.
           </p>
+          <input name="_csrf" value ="<% csrfToken %>" type="hidden">
           <p class="text-center">
             <a class="btn btn-secondary stretched-link text-info" href="#" role="button">Delete a record &raquo;</a>
           </p>
@@ -76,6 +78,7 @@
           <p class="card-text p-2">
             Follow this link to view employee records.
           </p>
+          <input name="_csrf" value ="<% csrfToken %>" type="hidden">
           <p class="text-center">
             <a class="btn btn-secondary stretched-link text-info" href="#" role="button">View records &raquo;</a>
           </p>

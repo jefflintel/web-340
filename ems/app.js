@@ -22,7 +22,11 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const Employee = require("./models/employees");
 //helmet xss
-var helmet = require("helmet");
+const helmet = require("helmet");
+//csurf, body parser, cookie parser
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const csurf = require("csurf");
 
 //mLab database connection
 var mongoDB = "mongodb+srv://admin:1BUDweiser@buwebdev-cluster-1-09j90.mongodb.net/test?retryWrites=true&w=majority";
@@ -42,6 +46,10 @@ db.once("open", function() {
   console.log("Application connected to mLab MongoDB instance!");
 })
 
+//set csurf
+var csurfProtection =csurf({cookie: true});
+
+//set ejs views
 var app = express();
 app.set("views", path.resolve(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -54,12 +62,28 @@ app.use(express.static(publicPath));
 //use helmet
 app.use(helmet.xssFilter());
 
+//use csurf, body parser, cookie parser
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
+app.use(csurfProtection);
+app.use(function(request, response, next) {
+  var token = request.csrfToken();
+  response.cookie('XSRF-TOKEN', token);
+  response.locals.csrfToken = token;
+  next();
+})
+
 
 app.get("/", function(request, response) {
   response.render("index", {
     title: "Home page",
     message: "XSS Prevention Example"
   });
+});
+
+app.post("/process", function(request, response) {
+  console.log(request.body.txtName);
+  response.redirect("/");
 });
 
 //new employee
