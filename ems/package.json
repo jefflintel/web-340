@@ -15,5 +15,12 @@
     "mongoose": "^5.9.7",
     "morgan": "^1.10.0",
     "parser": "^0.1.4"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": "12.14.1"
   }
 }
+

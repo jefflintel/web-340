@@ -6,7 +6,7 @@
     <%- include('navbar.ejs') %>
 
     <div role="main" class="container w-75" >
-      <br /><br />
+
 
       <h2 class="display-3 text-light">Employee Details</h2>
       <% if (employees.length) { %>
@@ -23,7 +23,8 @@
             <% employees.forEach(function (entry) { %>
             <tr>
                 <td><%= entry.firstName %></td>
-                <td><%= entry.lastName %></td>
+                <td><a href="/view/<%=entry.lastName %>" class="text-info"><%= entry.lastName %></a></td>
+                <!--<td><a href="/view/<%=entry.lastName %>" class="text-info">View Employee Information</a></td>-->
             </tr>
 
             </tbody>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <%- include('header.ejs') %>
+
+  <body class="bg-dark">
+    <%- include('navbar.ejs') %>
+
+    <div role="main" class="container w-75">
+      <h2 class="display-3 text-light">Employee Record</h2>
+
+      <div class="form-group">
+        <label for="txtFirstName" class="text-light">First Name: </label>
+        <input type="text" class="form-control" id="txtFirstName" value="<%= employee.firstName %>" name="txtFirstName">
+        <label for="txtLastName" class="text-light">Last Name: </label>
+        <input type="text" class="form-control" id="txtLastName" value="<%= employee.lastName %>" name="txtLastName">
+      </div>
+      <a href="/list" class="text-info">Back to Employee List</a>
+    </div>
+
+  </body>
+</html>

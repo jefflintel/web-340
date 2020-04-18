@@ -8,10 +8,6 @@
 ;===========================================
 */
 
-//header
-const header = require('../lintel-header.js');
-
-console.log(header.display("Jeff", "Lintel", "Exercise 6.4"));
 //express
 const express = require("express");
 const http = require("http");
@@ -83,9 +79,10 @@ app.get("/", function(request, response) {
 
 app.get("/new", function(request, response) {
   response.render("new", {
-    title: "EMS || New"
+    title: "EMS || New Employee"
   });
-})
+});
+
 
 app.post("/process", function(request, response) {
   //console.log(request.body.txtFirstName);
@@ -118,7 +115,7 @@ app.post("/process", function(request, response) {
 
 });
 
-//find all
+//find all employees
 app.get("/list", function(request, response) {
   Employee.find({}, function(error, employees) {
      if (error) throw error;
@@ -129,6 +126,27 @@ app.get("/list", function(request, response) {
   });
 });
 
-http.createServer(app).listen(8080, function() {
-  console.log("Application started on port 8080!");
+//find one employee by last name
+app.get("/view/:queryName", function(request, response) {
+  //console.log(request.params);
+  var queryName = request.params.queryName;
+  console.log(queryName);
+  Employee.findOne({lastName: queryName}, function(error, employees) {
+    if(error) throw error;
+    console.log(employees);
+    //returns an object
+    if(employees !== null) {
+      response.render("view", {
+        title: "EMS || Employee Record",
+        employee: employees
+      })
+    } else {
+      response.redirect("/list");
+    }
+  });
+});
+
+app.set("port", process.env.PORT || 8080);
+http.createServer(app).listen(app.get("port"), function() {
+  console.log(`Application started on port ${app.get("port")}!`);
 });
